@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClassifyAI</title>
+
+    <link rel="stylesheet" href="./frontend/style.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <img src="./frontend/img/Universiteti_Polis.png" alt="Polis Logo">
+            </nav>
+        </header>
+        <h1>Classify AI</h1>
+        <p class="container_p">Intelligent Document Classification System</p>
+        <form id="uploadForm">
+            <label for="fileInput" id="fileLabel">Upload a file (PDF, DOCX, or TXT):</label>
+            <input type="file" id="fileInput" name="file" accept=".pdf, .docx, .txt" required>
+            <p id="fileName"></p>
+            <button type="submit">Classify</button>
+        </form>
+        <div class="buttons">
+            <button type="button" id="clearButton">Clear</button>
+        </div>
+        <div id="result" role="status" aria-live="polite"></div>
+        <script src="./frontend/script.js"></script>
+        <footer>
+            <p>
+                Worked By Group 7
+            </p>
+        </footer>
+    </div>
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileName');
+        const fileLabel = document.getElementById('fileLabel');
+        const clearButton = document.getElementById('clearButton');
+        const uploadForm = document.getElementById('uploadForm');
+
+        fileInput.addEventListener('change', () => {
+            const file = fileInput.files[0];
+            if (file) {
+                fileNameDisplay.textContent = `Selected file: ${file.name}`;
+                fileLabel.style.display = 'none';
+            } else {
+                fileNameDisplay.textContent = '';
+                fileLabel.style.display = 'block';
+            }
+        });
+
+        clearButton.addEventListener('click', () => {
+            fileInput.value = '';
+            fileNameDisplay.textContent = '';
+            fileLabel.style.display = 'block';
+        });
+
+        // Drag-and-drop functionality
+        uploadForm.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            uploadForm.classList.add('hover');
+        });
+
+        uploadForm.addEventListener('dragleave', () => {
+            uploadForm.classList.remove('hover');
+        });
+
+        uploadForm.addEventListener('drop', (event) => {
+            event.preventDefault();
+            uploadForm.classList.remove('hover');
+
+            const file = event.dataTransfer.files[0];
+            if (file) {
+                fileInput.files = event.dataTransfer.files;
+                fileNameDisplay.textContent = `Selected file: ${file.name}`;
+                fileLabel.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>
